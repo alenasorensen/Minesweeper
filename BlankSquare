@@ -1,0 +1,110 @@
+import java.awt.Color;
+import java.util.ArrayList;
+
+import info.gridworld.actor.Actor;
+import info.gridworld.actor.ActorWorld;
+import info.gridworld.grid.Grid;
+import info.gridworld.grid.Location;
+
+public class BlankSquare extends Actor {
+	
+	private BlankSquare square;
+	
+	public BlankSquare() {
+		this.setColor(Color.gray);
+	 
+	}
+	
+	public void reveal()
+	{
+		int numN = numNeighbors();
+		
+		Location loc = square.getLocation();
+		getGrid().remove(loc);
+		//removeSelfFromGrid();
+		
+		if(numN == 1)
+		{
+			BlankSquare newN = new NumberOne();
+			getGrid().put(loc, newN);
+		}
+		if(numN == 2)
+		{
+			BlankSquare newN = new NumberTwo();
+			getGrid().put(loc, newN);
+		}
+		if(numN == 3)
+		{
+			BlankSquare newN = new NumberThree();
+			getGrid().put(loc, newN);
+		}
+		if(numN == 4)
+		{
+			BlankSquare newN = new NumberFour();
+			getGrid().put(loc, newN);
+		}
+		if(numN == 5)
+		{
+			BlankSquare newN = new NumberFive();
+			getGrid().put(loc, newN);
+		}
+		if(numN == 6)
+		{
+			BlankSquare newN = new NumberSix();
+			getGrid().put(loc, newN);
+		}
+		if(numN == 7)
+		{
+			BlankSquare newN = new NumberSeven();
+			getGrid().put(loc, newN);
+		}
+		if(numN == 8)
+		{
+			BlankSquare newN = new NumberEight();
+			getGrid().put(loc, newN);
+		}
+		if(numN == 0)
+		{
+			BlankSquare newN = new RevealedSquare();
+			getGrid().put(loc, newN);
+			revealNeigbors();
+			
+			
+			
+		}
+		
+	}
+	
+	private void revealNeigbors()
+	{
+		Location loc = square.getLocation();
+		ArrayList<Actor> numOfNeighbors = getGrid().getNeighbors(loc);
+		
+		for(Actor a: numOfNeighbors)
+		{
+			BlankSquare blank = (BlankSquare)a;
+			blank.reveal();
+		}
+	}
+	
+	private int numNeighbors()
+	{
+		
+		Location loc = square.getLocation();
+		ArrayList<Actor> numOfNeighbors = getGrid().getNeighbors(loc);
+		int count = 0;
+		
+		for(Actor a: numOfNeighbors)
+		{
+			if(a instanceof UnrevealedBomb)
+			{
+				count++;
+			}
+		}
+		
+		return count;
+	}
+	
+	
+
+}
